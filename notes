@@ -1,0 +1,80 @@
+notes:
+
+Le but est de transformer le jeu de l'execice de guess Word en un jeu multiplayer
+
+	Joueur 1: cree le jeu
+	Joueur 2: choisit parmi la liste des jeux disponibles un jeu
+	
+Fonctionalites du jeu:
+	
+	le jeu se cree, le joueur un attend que quelqu'un choisisse de jouer contre lui.
+	donc ici on a creation d'un game
+	gamecreation: cette session contiendra
+		gamename
+		username du createur
+		username du joiner
+		timestamp du createur : il est mis en place si le createur devinne le mot
+		timestamp du joiner: il est mis en place si le joiner devinne le mot
+		winner: le mon du joueur gagnant
+	
+	si quelqu'un choisit de jouer contre lui alors le jeu commence pour les deux joueurs.
+		en utilisant le code d'elie, les calculs se font directement sur le client, le serveur de ce point de vue na rien a faire
+
+le serveur fait les choses suivantes:
+	void gamestart(String gamename, String username)): cree une session de jeu a partir des valeurs ci-dessus avec:
+	gamename
+	creatorusername;
+	joinerusername = null;
+	creatortimestamp = null;
+	joinertimestamp = null;
+	winner = null;
+	
+	boolean isConnection(String gamename) : verifie que deux joueurs se sont connectees
+		si joinerusername == null alors return false
+		else return true
+		
+	quand un joueur trouve le mot, le serveur recoit le timestamp quand le mot a ete trouve. 
+	
+	quand un joueur trouve le mot il faut savoir s'il a gagne ou pas.
+		il a gagne s'il est le premier a avoir trouve le mot (d'ou l'utilite du timestamp)
+		il faut une methode qui part du client (au moment ou le joueur trouve le mot) et demande au serveur qui est le gagnant
+			il lui dit: username a trouvee le mot, username est gagnant?
+			donc un methode qui recoit en entree un String username
+			et qui renvoie un vrai ou faux
+	
+	deux methodes:
+	
+	void puttimeStamp(string username, Timestamp timestamp); 
+		si gamearray.get(gamename).getcreator() == username
+			gamearray.getcreatortimestamp.setcreatortimestamp
+		
+		sinon gamearray.getjoinertimestamp.setjoinertimestamp
+	
+	boolean winner (String username){
+		boolean b
+		
+		si creatortimestamp != null && joinertimestamp != null;
+		alors 
+			si creatortimestamt.compateto(joinertimestamp) = 1 alors winner = creator
+			si creatortimestamt.compateto(joinertimestamp) = -1 alors winner = joiner
+		
+		
+		si creatortimestamp = null && joinertimestamp != null
+			winner = joiner
+			
+		si creatortimestamp != null && joinertimestamp = null
+			winner = creator
+		
+		si username = winner alors b = true;
+		sinon b = false;
+		
+		une derniere methode pour relancer le jeu si tous les deux n'ont pas trouve le mot
+		
+		boolean newword( String gamename);
+		ici on a:
+			si creatortimestamp = null && joinertimestamp = null
+			return true
+		
+		sinon return false
+			
+	
