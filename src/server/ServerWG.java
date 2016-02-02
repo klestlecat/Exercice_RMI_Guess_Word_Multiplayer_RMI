@@ -2,7 +2,10 @@ package server;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Date;
+import java.sql.*;
 import java.util.TreeMap;
+
 
 public class ServerWG extends UnicastRemoteObject implements IServerWG {
 
@@ -73,8 +76,49 @@ public class ServerWG extends UnicastRemoteObject implements IServerWG {
 	}
 
 	@Override
-	public boolean chackgameend(String gamename) throws RemoteException {
+	public boolean checkgameend(String gamename) throws RemoteException {
 		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	
+	
+	public String TimeStamp (){
+		
+		Timestamp timestamp = new Timestamp((new Date()).getTime());
+		
+		return timestamp.toString();
+	}
+
+	@Override
+	public void wordTimestamp(String gamename, String username, String word) throws RemoteException {
+		String timestamp = TimeStamp();
+		
+		if (word.equals("")){
+			timestamp = "0000";
+		}
+				
+		else if (username.equals(sessionarray.get(gamename).getCreator())){
+			gamearray.get(gamename).setTscreator(timestamp);
+		}
+		
+		else if (username.equals(sessionarray.get(gamename).getJoiner())){
+			gamearray.get(gamename).setTsjoiner(timestamp);
+		}
+		
+	}
+
+	@Override
+	public boolean checkwin(String gamename, String username) throws RemoteException, InterruptedException {
+		
+		while (gamearray.get(gamename).getTscreator().equals("") && gamearray.get(gamename).getTsjoiner().equals("")){
+			Thread.sleep(30);
+		}
+		
+		if (gamearray.get(gamename).getWinner().equals(username)){
+			return true;
+		}
+		
 		return false;
 	}
 

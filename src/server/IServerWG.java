@@ -17,5 +17,11 @@ public interface IServerWG extends Remote {
 	
 	String[] getHelp(String word) throws RemoteException;
 	
-	boolean chackgameend(String gamename) throws RemoteException;
+	boolean checkgameend(String gamename) throws RemoteException;
+	
+	void wordTimestamp(String gamename, String username, String word) throws RemoteException;
+	
+	boolean checkwin (String gamename, String username) throws RemoteException, InterruptedException;
+	
+	
 }
