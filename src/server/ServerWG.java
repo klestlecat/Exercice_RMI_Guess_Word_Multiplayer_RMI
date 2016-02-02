@@ -68,7 +68,7 @@ public class ServerWG extends UnicastRemoteObject implements IServerWG {
 	public void joinerconnection(String username, String gamename) throws RemoteException {
 		
 		sessionarray.get(gamename).setJoiner(username);
-		db.addJoinerSession(gamename, username);
+		db.setJoinerSession(gamename, username);
 		
 	}
 

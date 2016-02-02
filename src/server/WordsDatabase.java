@@ -121,22 +121,24 @@ public class WordsDatabase {
 		return false;
 	}
 	
-	public boolean addSession (String creator, String joiner, String gamename){
-		Statement stmt = null;
-		int cid, jid; 
+	
+	// il est possible de faire une seule methode getID qui recuperera dans la table l'ID?
+	
+	public int getPlayerID(String username){
 		
-		String getCreatorID = "SELECT ID FROM PLAYERS WHERE PLAYER='" + creator + "';";
-		String getJoinerID = "SELECT ID FROM PLAYERS WHERE PLAYER='" + joiner + "';";
+		Statement stmt = null;
+		String getPlayerID = "SELECT ID FROM PLAYERS WHERE PLAYER='" + username + "';";
+		int playerid = -1;
 		
 		try{
 			this.connect();
 			
 			stmt = this.c.createStatement();
 			
-			ResultSet rsc = stmt.executeQuery(getCreatorID);
+			ResultSet rsc = stmt.executeQuery(getPlayerID);
 			
 			if (rsc.next()){
-				cid = rsc.getInt("ID");
+				playerid = rsc.getInt("ID");
 				rsc.close();
 			}
 			
@@ -144,22 +146,107 @@ public class WordsDatabase {
 				rsc.close();
 				stmt.close();
 				this.disconnect();
-				return false;
+				System.out.println(username +"'s ID not found");
 			}
 			
-			ResultSet rsj = stmt.executeQuery(getJoinerID);
+			stmt.close();
+			this.disconnect();
 			
-			if (rsj.next()){
-				jid = rsj.getInt("ID");
-				rsj.close();
+		} catch (SQLException e) {
+			
+			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+		}
+		
+		return playerid;
+	}
+	
+	public int getSessionID (String session){
+		
+		Statement stmt = null;
+		String getSessionID = "SELECT ID FROM SESSIONS WHERE SESSION='" + session + "';";
+		int sessionid = -1;
+		
+		try{
+			
+			this.connect();
+			
+			stmt = this.c.createStatement();
+			
+			ResultSet rss = stmt.executeQuery(getSessionID);
+			
+			if (rss.next()){
+				sessionid = rss.getInt("ID");
+				rss.close();
 			}
 			
 			else {
-				rsj.close();
+				rss.close();
 				stmt.close();
 				this.disconnect();
-				return false;
+				System.out.println(session + "'s ID not found");
 			}
+			stmt.close();
+			this.disconnect();
+			
+		} catch (SQLException e) {
+			
+			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+		}
+		
+		return sessionid;
+		
+	}
+	
+	
+	public int getwordID (String word){
+		
+		Statement stmt = null;
+		String getWordID = "SELECT ID FROM WORLDS WHERE WORD='" + word + "';";
+		int wordID = -1;
+		
+		try{
+			
+			this.connect();
+			
+			stmt = this.c.createStatement();
+			
+			ResultSet rss = stmt.executeQuery(getWordID);
+			
+			if (rss.next()){
+				wordID = rss.getInt("ID");
+				rss.close();
+			}
+			
+			else {
+				rss.close();
+				stmt.close();
+				this.disconnect();
+				System.out.println(word + "'s ID not found");
+			}
+			stmt.close();
+			this.disconnect();
+			
+		} catch (SQLException e) {
+			
+			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+		}
+		
+		return wordID;
+		
+	}
+	
+	public boolean addSession (String creator, String joiner, String gamename){
+		
+		Statement stmt = null;
+		int cid = getPlayerID(creator);
+		int jid = getPlayerID(joiner); 
+		
+		try{
+			this.connect();
+			
+			stmt = this.c.createStatement();
+			
+			
 			
 			String sqlSession = "INSERT INTO SESSION (SESSION, IDCREATOR, IDJOINER)" +
 					"VALUES ('" + gamename + ", '" + cid + ", '" + jid + "');";
@@ -181,11 +268,13 @@ public class WordsDatabase {
 		   return false;
 	}
 	
-	public boolean addJoinerSession (String gamename, String joiner){
+	public boolean setJoinerSession (String gamename, String joiner){
 		Statement stmt = null;
 		
+		int joinerid = getPlayerID(joiner);
+		
 		String sqlJoinerUpdate = "UPDATE SESSIONS"
-				+ "SET IDJOINER ='" + joiner + "'"
+				+ "SET IDJOINER ='" + joinerid + "'"
 				+ "WHERE SESSION ='" + gamename + "';";
 		
 		try {
@@ -214,71 +303,16 @@ public class WordsDatabase {
 		Statement stmt = null;
 		int wid, lid, wordid, gid; 
 		
-		String getWinnerID = "SELECT ID FROM PLAYERS WHERE PLAYER='" + winner + "';";
-		String getLoserID = "SELECT ID FROM PLAYERS WHERE PLAYER='" + loser + "';";
-		String getWordID = "SELECT ID FROM WORLDS WHERE WORD='" + word + "';";
-		String getSessionID = "SELECT ID FROM SESSIONS WHERE SESSION='" + gamename + "';";
+		wid = getPlayerID(winner);
+		lid = getPlayerID(loser);
+		wordid = getwordID(word);
+		gid = getSessionID(gamename);
 		
 		try{
 			this.connect();
 			
 			stmt = this.c.createStatement();
 			
-			ResultSet rsw = stmt.executeQuery(getWinnerID);
-			
-			if (rsw.next()){
-				wid = rsw.getInt("ID");
-				rsw.close();
-			}
-			
-			else {
-				rsw.close();
-				stmt.close();
-				this.disconnect();
-				return false;
-			}
-			
-			ResultSet rsl = stmt.executeQuery(getLoserID);
-			
-			if (rsl.next()){
-				lid = rsl.getInt("ID");
-				rsl.close();
-			}
-			
-			else {
-				rsl.close();
-				stmt.close();
-				this.disconnect();
-				return false;
-			}
-			
-			ResultSet rsword = stmt.executeQuery(getWordID);
-			
-			if (rsword.next()){
-				wordid = rsword.getInt("ID");
-				rsword.close();
-			}
-			
-			else {
-				rsword.close();
-				stmt.close();
-				this.disconnect();
-				return false;
-			}
-			
-			ResultSet rss = stmt.executeQuery(getSessionID);
-			
-			if (rss.next()){
-				gid = rss.getInt("ID");
-				rss.close();
-			}
-			
-			else {
-				rss.close();
-				stmt.close();
-				this.disconnect();
-				return false;
-			}
 			
 			String sqlSession = "INSERT INTO GAME (IDSESSION, IDWORD, IDWINNER, IDLOSER)" +
 					"VALUES ('" + gid + ", '" + wordid + ", '" + wid + lid + "');";
