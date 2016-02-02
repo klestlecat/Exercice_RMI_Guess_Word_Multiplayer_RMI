@@ -29,6 +29,8 @@ le serveur fait les choses suivantes:
 	joinertimestamp = null;
 	winner = null;
 	
+	
+	
 	boolean isConnection(String gamename) : verifie que deux joueurs se sont connectees
 		si joinerusername == null alors return false
 		else return true
