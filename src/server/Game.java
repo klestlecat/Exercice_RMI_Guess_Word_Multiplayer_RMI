@@ -8,9 +8,10 @@ public class Game {
 	private String loser;
 	private String tscreator;
 	private String tsjoiner;
+	private String tie;
 	
 	
-	public Game(String gamename, String word, String winner, String loser, String tscreator, String tsjoiner) {
+	public Game(String gamename, String word, String winner, String loser, String tscreator, String tsjoiner, String tie) {
 		
 		super();
 		this.gamename = gamename;
@@ -19,6 +20,7 @@ public class Game {
 		this.loser = loser;
 		this.tscreator = tscreator;
 		this.tsjoiner = tsjoiner;
+		this.tie = tie;
 	}
 
 
@@ -31,6 +33,7 @@ public class Game {
 		this.loser = null;
 		this.tscreator = "";
 		this.tsjoiner = "";
+		this.tie = "";
 	}
 
 
@@ -71,6 +74,21 @@ public class Game {
 
 	public void setTsjoiner(String tsjoiner) {
 		this.tsjoiner = tsjoiner;
+	}
+
+
+	public String getTie() {
+		return tie;
+	}
+
+
+	public void setTie(String tie) {
+		this.tie = tie;
+	}
+
+
+	public String getWord() {
+		return word;
 	}
 	
 	

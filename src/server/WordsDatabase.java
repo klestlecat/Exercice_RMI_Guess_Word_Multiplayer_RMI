@@ -13,7 +13,8 @@ public class WordsDatabase {
             " IDSESSION	INTEGER	NOT NULL," +
 			" IDWORD	INTEGER	NOT NULL," +
 			" IDWINNER	INTEGER	NOT NULL," +
-			" IDLOSER	INTEGER	NOT NULL)";
+			" IDLOSER	INTEGER	NOT NULL)" +
+			" STATUS CHAR(50)	NOT NULL)";
 	
 	private final String sqlSessionTable = "CREATE TABLE IF NOT EXISTS SESSIONS " +
 			"(ID	INTEGER	PRIMARY KEY AUTOINCREMENT," +
@@ -144,8 +145,6 @@ public class WordsDatabase {
 			
 			else {
 				rsc.close();
-				stmt.close();
-				this.disconnect();
 				System.out.println(username +"'s ID not found");
 			}
 			
@@ -181,8 +180,6 @@ public class WordsDatabase {
 			
 			else {
 				rss.close();
-				stmt.close();
-				this.disconnect();
 				System.out.println(session + "'s ID not found");
 			}
 			stmt.close();
@@ -219,8 +216,6 @@ public class WordsDatabase {
 			
 			else {
 				rss.close();
-				stmt.close();
-				this.disconnect();
 				System.out.println(word + "'s ID not found");
 			}
 			stmt.close();
@@ -299,7 +294,7 @@ public class WordsDatabase {
 		return false;
 	}
 	
-	public boolean addGame (String winner, String loser, String word, String gamename){
+	public boolean addGame (String winner, String loser, String word, String gamename, String tie){
 		Statement stmt = null;
 		int wid, lid, wordid, gid; 
 		
@@ -314,8 +309,8 @@ public class WordsDatabase {
 			stmt = this.c.createStatement();
 			
 			
-			String sqlSession = "INSERT INTO GAME (IDSESSION, IDWORD, IDWINNER, IDLOSER)" +
-					"VALUES ('" + gid + ", '" + wordid + ", '" + wid + lid + "');";
+			String sqlSession = "INSERT INTO GAME (IDSESSION, IDWORD, IDWINNER, IDLOSER, STATUS)" +
+					"VALUES ('" + gid + ", '" + wordid + ", '" + wid +", '" + lid +", '" + tie + "');";
 			
 			stmt.executeUpdate(sqlSession);
 			
@@ -333,6 +328,8 @@ public class WordsDatabase {
 		   
 		   return false;
 	}
+	
+	
 	
 	public boolean addRow(String word, String[] help){
 	

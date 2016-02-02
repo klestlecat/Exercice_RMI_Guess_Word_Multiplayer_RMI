@@ -73,23 +73,15 @@ public class ServerWG extends UnicastRemoteObject implements IServerWG {
 		sessionarray.get(gamename).setJoiner(username);
 		db.setJoinerSession(gamename, username);
 		
+		
 	}
 
 	@Override
-	public boolean checkgameend(String gamename) throws RemoteException {
+	public boolean gameend(String gamename) throws RemoteException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 	
-	
-	
-	public String TimeStamp (){
-		
-		Timestamp timestamp = new Timestamp((new Date()).getTime());
-		
-		return timestamp.toString();
-	}
-
 	@Override
 	public void wordTimestamp(String gamename, String username, String word) throws RemoteException {
 		String timestamp = TimeStamp();
@@ -105,7 +97,6 @@ public class ServerWG extends UnicastRemoteObject implements IServerWG {
 		else if (username.equals(sessionarray.get(gamename).getJoiner())){
 			gamearray.get(gamename).setTsjoiner(timestamp);
 		}
-		
 	}
 
 	@Override
@@ -120,6 +111,39 @@ public class ServerWG extends UnicastRemoteObject implements IServerWG {
 		}
 		
 		return false;
+	}
+	
+	public void setWinner(String gamename, String word){
+		String creatorts = gamearray.get(gamename).getTscreator();
+		String joinerts = gamearray.get(gamename).getTsjoiner();
+		
+		if (creatorts.equals("0000") && joinerts.equals("0000")){
+			gamearray.get(gamename).setWinner(sessionarray.get(gamename).getCreator());
+			gamearray.get(gamename).setLoser(sessionarray.get(gamename).getJoiner());
+			gamearray.get(gamename).setTie("tie");
+		}
+		
+		else if (creatorts.compareTo(joinerts) < 0){
+			gamearray.get(gamename).setWinner(sessionarray.get(gamename).getCreator());
+			gamearray.get(gamename).setLoser(sessionarray.get(gamename).getJoiner());
+			gamearray.get(gamename).setTie("not tie");
+		}
+		
+		else if (creatorts.compareTo(joinerts) > 0){
+			gamearray.get(gamename).setWinner(sessionarray.get(gamename).getJoiner());
+			gamearray.get(gamename).setLoser(sessionarray.get(gamename).getCreator());
+			gamearray.get(gamename).setTie("not tie");
+		}
+		
+		db.addGame(gamearray.get(gamename).getWinner(), gamearray.get(gamename).getLoser(), 
+				gamearray.get(gamename).getWord(), gamename, gamearray.get(gamename).getTie());
+	}
+	
+	public String TimeStamp (){
+		
+		Timestamp timestamp = new Timestamp((new Date()).getTime());
+		
+		return timestamp.toString();
 	}
 
 }
