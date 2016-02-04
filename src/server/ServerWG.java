@@ -146,4 +146,5 @@ public class ServerWG extends UnicastRemoteObject implements IServerWG {
 		return timestamp.toString();
 	}
 
+	
 }
