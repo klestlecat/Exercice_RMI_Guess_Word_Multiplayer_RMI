@@ -19,6 +19,10 @@ public class Session {
 		this.creator = creator;
 		this.joiner = null;
 	}
+	
+	public String getGamename(){
+		return gamename;
+	}
 
 	public String getJoiner() {
 		return joiner;

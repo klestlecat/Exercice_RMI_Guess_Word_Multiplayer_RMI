@@ -31,7 +31,7 @@ public class ServerWG extends UnicastRemoteObject implements IServerWG {
 		String word = db.getWord();
 		gamearray.put(gamename, new Game(gamename, word));
 		
-		return db.getWord();
+		return word;
 	}
 
 	@Override
@@ -41,12 +41,26 @@ public class ServerWG extends UnicastRemoteObject implements IServerWG {
 	}
 
 	@Override
-	public void gamecreation(String username, String gamename) throws RemoteException {
+	public void sessioncreation(String username, String gamename) throws RemoteException {
 		
 		db.addPlayer(username);
 		sessionarray.put(gamename, new Session(gamename, username));
 		db.addSession(username, " ", gamename);
 		
+	}
+	
+	@Override
+	public String showSession (){
+		
+		String line = "";
+		
+		for (String gamename : sessionarray.keySet()){
+			if (sessionarray.get(gamename).getJoiner() == null){
+				line += sessionarray.get(gamename).getGamename() + "\n";
+			}
+		}
+		
+		return line;
 	}
 
 	@Override
@@ -57,14 +71,12 @@ public class ServerWG extends UnicastRemoteObject implements IServerWG {
 	}
 
 	@Override
-	public boolean checkplayerconnection(String gamename) throws RemoteException {
+	public void checkplayerconnection(String gamename) throws RemoteException, InterruptedException {
 		
-		if (sessionarray.get(gamename).getJoiner() == null){
-			return true;
+		while (sessionarray.get(gamename).getJoiner() == null){
+			Thread.sleep(30);
 		}
-		else{
-			return false;
-		}
+		
 	}
 
 	@Override
@@ -73,12 +85,18 @@ public class ServerWG extends UnicastRemoteObject implements IServerWG {
 		sessionarray.get(gamename).setJoiner(username);
 		db.setJoinerSession(gamename, username);
 		
-		
 	}
 
 	@Override
 	public boolean gameend(String gamename) throws RemoteException {
-		// TODO Auto-generated method stub
+		
+		if (gamearray.get(gamename) != null){
+			setWinner(gamename);
+			addGameDB(gamename);
+			gamearray.remove(gamename);
+			return true;
+			
+		}
 		return false;
 	}
 	
@@ -113,7 +131,7 @@ public class ServerWG extends UnicastRemoteObject implements IServerWG {
 		return false;
 	}
 	
-	public void setWinner(String gamename, String word){
+	public void setWinner(String gamename){
 		String creatorts = gamearray.get(gamename).getTscreator();
 		String joinerts = gamearray.get(gamename).getTsjoiner();
 		
@@ -134,7 +152,19 @@ public class ServerWG extends UnicastRemoteObject implements IServerWG {
 			gamearray.get(gamename).setLoser(sessionarray.get(gamename).getCreator());
 			gamearray.get(gamename).setTie("not tie");
 		}
+	}
+	
+	@Override
+	public boolean checkTie (String gamename){
 		
+		if (gamearray.get(gamename).getTscreator().equals("0000") && gamearray.get(gamename).getTsjoiner().equals("0000")){
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public void addGameDB(String gamename){
 		db.addGame(gamearray.get(gamename).getWinner(), gamearray.get(gamename).getLoser(), 
 				gamearray.get(gamename).getWord(), gamename, gamearray.get(gamename).getTie());
 	}

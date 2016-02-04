@@ -51,6 +51,10 @@ public class Main {
 		String guess;
 		String aux;
 		String[] help;
+		
+		String gamename;
+		String username;
+		
 		int errors, modulo, count;
 		boolean found;
 		
@@ -62,16 +66,27 @@ public class Main {
 			Scanner in = new Scanner(System.in);
 			String input;
 			
+			//username input
+			System.out.println("Please enter your username");
+			username = in.nextLine();
+			
 			while (true){
 				
 				help = null;
-				System.out.println("Choose \"n\" for New Game (\"exit\" to quit): ");
+				System.out.println("Choose \"n\" for New Game \"j\" for Join Game (\"exit\" to quit): ");
 				
 				input = in.nextLine();
 				
 				if(input.toLowerCase().equals("n")){
 					
-					word = server.getWord();
+					//gamename input
+					System.out.println("Please enter gamename");
+					gamename = in.nextLine();
+					server.sessioncreation(username, gamename);
+					
+					word = server.getWord(gamename);
+					
+					
 					
 					if (word.equals(""))
 						System.out.println("Internal Server Error");
@@ -102,6 +117,7 @@ public class Main {
 							}
 							else if (input.toLowerCase().equals("quit")){
 								System.out.println("Goodbye!");
+								
 								break;
 							}
 							else if (input.length() == 1){

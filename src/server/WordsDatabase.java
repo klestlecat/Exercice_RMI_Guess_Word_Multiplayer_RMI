@@ -39,7 +39,7 @@ public class WordsDatabase {
 		this.dbName = dbName;
 		this.createTable(sqlPlayerTable, "PLAYER");
 		this.createTable(sqlGameTable, "GAME");
-		this.createTable(sqlSessionTable, "SESSION");
+		this.createTable(sqlSessionTable, "SESSIONS");
 		this.createTable(sqlWordTable, "WORDS");
 		this.createTable(sqlHelpTable, "HELP");
 	}
