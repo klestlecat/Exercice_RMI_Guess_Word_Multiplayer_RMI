@@ -243,8 +243,9 @@ public class WordsDatabase {
 			
 			
 			String sqlSession = "INSERT INTO SESSIONS (IDCREATOR, IDJOINER, SESSION) " +
-					"VALUES (" + cid + ", '" + jid + ", '" + gamename + "');";
+					"VALUES (" + cid + ", '" + jid + "', '" + gamename + "');";
 			
+			System.out.println(sqlSession);
 /*			"INSERT INTO HELP (WORD, LINE) " +
 				"VALUES (" + id + ", '" + help[i] + "');";
 			
@@ -314,6 +315,7 @@ public class WordsDatabase {
 			
 			String sqlSession = "INSERT INTO GAME (IDSESSION, IDWORD, IDWINNER, IDLOSER, STATUS)" +
 					"VALUES ('" + gid + ", '" + wordid + ", '" + wid +", '" + lid +", '" + tie + "');";
+			System.out.println(sqlSession);
 			
 			stmt.executeUpdate(sqlSession);
 			
