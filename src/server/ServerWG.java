@@ -45,7 +45,7 @@ public class ServerWG extends UnicastRemoteObject implements IServerWG {
 		
 		db.addPlayer(username);
 		sessionarray.put(gamename, new Session(gamename, username));
-		db.addSession(username, " ", gamename);
+		db.addSession(username, gamename);
 		
 	}
 	

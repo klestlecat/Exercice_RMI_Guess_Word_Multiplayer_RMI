@@ -230,17 +230,16 @@ public class WordsDatabase {
 		
 	}
 	
-	public boolean addSession (String creator, String joiner, String gamename){
+	public boolean addSession (String creator, String gamename){
 		
 		Statement stmt = null;
 		int cid = getPlayerID(creator);
-		int jid = getPlayerID(joiner); 
+		int jid = -1;
 		
 		try{
 			this.connect();
 			
 			stmt = this.c.createStatement();
-			
 			
 			
 			String sqlSession = "INSERT INTO SESSION (SESSION, IDCREATOR, IDJOINER)" +
