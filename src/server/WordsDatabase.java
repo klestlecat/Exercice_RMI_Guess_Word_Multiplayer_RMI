@@ -13,7 +13,7 @@ public class WordsDatabase {
             " IDSESSION	INTEGER	NOT NULL," +
 			" IDWORD	INTEGER	NOT NULL," +
 			" IDWINNER	INTEGER	NOT NULL," +
-			" IDLOSER	INTEGER	NOT NULL)" +
+			" IDLOSER	INTEGER	NOT NULL," +
 			" STATUS CHAR(50)	NOT NULL)";
 	
 	private final String sqlSessionTable = "CREATE TABLE IF NOT EXISTS SESSIONS " +
@@ -258,6 +258,7 @@ public class WordsDatabase {
 		   } catch (Exception e) {
 			   
 			   System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+			   System.out.println("addsession error");
 		   }
 		   
 		   return false;
