@@ -276,12 +276,10 @@ public class WordsDatabase {
 		int joinerid = getPlayerID(joiner);
 		
 		String sqlJoinerUpdate = "UPDATE SESSIONS"
-				+ "SET IDJOINER ='" + joinerid + "'"
-				+ "WHERE SESSION ='" + gamename + "';";
-		
-		System.out.println("Printing setjoinerSession:   " + "UPDATE SESSIONS"
 				+ " SET IDJOINER ='" + joinerid + "'"
-				+ " WHERE SESSION ='" + gamename + "';");
+				+ " WHERE SESSION ='" + gamename + "';";
+		
+		System.out.println("Printing setjoinerSession:  " +  sqlJoinerUpdate);
 		
 		try {
 			this.connect();
@@ -322,7 +320,7 @@ public class WordsDatabase {
 			
 			
 			String sqlSession = "INSERT INTO GAME (IDSESSION, IDWORD, IDWINNER, IDLOSER, STATUS)" +
-					"VALUES ('" + gid + ", '" + wordid + ", '" + wid +", '" + lid +", '" + tie + "');";
+					" VALUES ('" + gid + ", '" + wordid + ", '" + wid +", '" + lid +", '" + tie + "');";
 			System.out.println("Printinh addgame:" +    "INSERT INTO GAME (IDSESSION, IDWORD, IDWINNER, IDLOSER, STATUS)" +
 					"VALUES ('" + gid + ", '" + wordid + ", '" + wid +", '" + lid +", '" + tie + "');" );
 			System.out.println(sqlSession);
