@@ -234,7 +234,7 @@ public class WordsDatabase {
 		
 		Statement stmt = null;
 		int cid = getPlayerID(creator);
-		int jid = -1;
+		int jid = 5;
 		
 		try{
 			this.connect();
@@ -242,7 +242,7 @@ public class WordsDatabase {
 			stmt = this.c.createStatement();
 			
 			
-			String sqlSession = "INSERT INTO SESSIONS (IDCREATOR, IDJOINER, SESSION)" +
+			String sqlSession = "INSERT INTO SESSIONS (IDCREATOR, IDJOINER, SESSION) " +
 					"VALUES (" + cid + ", '" + jid + ", '" + gamename + "');";
 			
 /*			"INSERT INTO HELP (WORD, LINE) " +
@@ -252,7 +252,7 @@ public class WordsDatabase {
 			
 			stmt.close();
 			this.disconnect();
-			   
+			
 			System.out.println("Information added successfully");
 			   
 			return true;
@@ -263,7 +263,7 @@ public class WordsDatabase {
 			   System.out.println("addsession error");
 		   }
 		   
-		   return false;
+		return false;
 	}
 	
 	public boolean setJoinerSession (String gamename, String joiner){
