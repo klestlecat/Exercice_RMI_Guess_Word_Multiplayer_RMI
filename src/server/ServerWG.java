@@ -84,6 +84,7 @@ public class ServerWG extends UnicastRemoteObject implements IServerWG {
 	@Override
 	public void joinerconnection(String username, String gamename) throws RemoteException {
 		
+		db.addPlayer(username);
 		sessionarray.get(gamename).setJoiner(username);
 		db.setJoinerSession(gamename, username);
 		
@@ -109,7 +110,7 @@ public class ServerWG extends UnicastRemoteObject implements IServerWG {
 			timestamp = "0000";
 		}
 				
-		else if (username.equals(sessionarray.get(gamename).getCreator())){
+		if (username.equals(sessionarray.get(gamename).getCreator())){
 			gamearray.get(gamename).setTscreator(timestamp);
 		}
 		
@@ -121,8 +122,8 @@ public class ServerWG extends UnicastRemoteObject implements IServerWG {
 	@Override
 	public boolean checkwin(String gamename, String username) throws RemoteException, InterruptedException {
 		
-		while (gamearray.get(gamename).getTscreator().equals("") && gamearray.get(gamename).getTsjoiner().equals("")){
-			Thread.sleep(30);
+		while (gamearray.get(gamename).getTscreator().equals("") || gamearray.get(gamename).getTsjoiner().equals("")){
+			Thread.sleep(1000);
 		}
 		
 		if (gamearray.get(gamename).getWinner() == null){
@@ -160,7 +161,11 @@ public class ServerWG extends UnicastRemoteObject implements IServerWG {
 	}
 	
 	@Override
-	public boolean checkTie (String gamename){
+	public boolean checkTie (String gamename) throws InterruptedException{
+		
+		while (gamearray.get(gamename).getTscreator().equals("") || gamearray.get(gamename).getTsjoiner().equals("")){
+			Thread.sleep(1000);
+		}
 		
 		if (gamearray.get(gamename).getTscreator().equals("0000") && gamearray.get(gamename).getTsjoiner().equals("0000")){
 			return true;
@@ -179,6 +184,24 @@ public class ServerWG extends UnicastRemoteObject implements IServerWG {
 		Timestamp timestamp = new Timestamp((new Date()).getTime());
 		
 		return timestamp.toString();
+	}
+
+	@Override
+	public String joinergetWord(String gamename) throws RemoteException, InterruptedException {
+		
+		while (gamearray.get(gamename).getWord() == null){
+			Thread.sleep(30);
+		}
+		
+		return gamearray.get(gamename).getWord();
+	}
+	
+	@Override
+	public void waitGameend(String gamename) throws InterruptedException{
+		
+		while (gamearray.get(gamename).getTscreator().equals("") || gamearray.get(gamename).getTsjoiner().equals("")){
+			Thread.sleep(1000);
+		}
 	}
 
 	

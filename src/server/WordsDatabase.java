@@ -117,6 +117,7 @@ public class WordsDatabase {
 		} catch (Exception e) {
 			
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+			System.out.println("couldnt addplayer");
 		}
 		
 		return false;
@@ -154,6 +155,7 @@ public class WordsDatabase {
 		} catch (SQLException e) {
 			
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+			System.out.println("couldnt get playerID");
 		}
 		
 		return playerid;
@@ -224,6 +226,7 @@ public class WordsDatabase {
 		} catch (SQLException e) {
 			
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+			System.out.println("couldnt get word ID");
 		}
 		
 		return wordID;
@@ -234,7 +237,7 @@ public class WordsDatabase {
 		
 		Statement stmt = null;
 		int cid = getPlayerID(creator);
-		int jid = 5;
+		int jid = -1;
 		
 		try{
 			this.connect();
@@ -276,6 +279,10 @@ public class WordsDatabase {
 				+ "SET IDJOINER ='" + joinerid + "'"
 				+ "WHERE SESSION ='" + gamename + "';";
 		
+		System.out.println("Printing setjoinerSession:   " + "UPDATE SESSIONS"
+				+ " SET IDJOINER ='" + joinerid + "'"
+				+ " WHERE SESSION ='" + gamename + "';");
+		
 		try {
 			this.connect();
 			
@@ -293,6 +300,7 @@ public class WordsDatabase {
 		} catch (SQLException e) {
 			
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+			System.out.println("couldnt add joiner to session");
 		}
 		
 		return false;
@@ -315,6 +323,8 @@ public class WordsDatabase {
 			
 			String sqlSession = "INSERT INTO GAME (IDSESSION, IDWORD, IDWINNER, IDLOSER, STATUS)" +
 					"VALUES ('" + gid + ", '" + wordid + ", '" + wid +", '" + lid +", '" + tie + "');";
+			System.out.println("Printinh addgame:" +    "INSERT INTO GAME (IDSESSION, IDWORD, IDWINNER, IDLOSER, STATUS)" +
+					"VALUES ('" + gid + ", '" + wordid + ", '" + wid +", '" + lid +", '" + tie + "');" );
 			System.out.println(sqlSession);
 			
 			stmt.executeUpdate(sqlSession);
@@ -329,6 +339,7 @@ public class WordsDatabase {
 		   } catch (Exception e) {
 			   
 			   System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+			   System.out.println("couldnt add game");
 		   }
 		   
 		   return false;

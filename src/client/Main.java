@@ -83,109 +83,237 @@ public class Main {
 					System.out.println("Please enter gamename");
 					gamename = in.nextLine();
 					server.sessioncreation(username, gamename);
+
+					word = server.getWord(gamename);
 					
-					boolean joinerconnection = false;
 					System.out.println("waiting for a second player to join");
-					while (joinerconnection == false){
+					while (true){
 						try {
 							Thread.sleep(30);
-							joinerconnection = server.checkplayerconnection(gamename);
+							if(server.checkplayerconnection(gamename)){
+								break;
+							}
 						} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+						
 					}
 					
 					
-					word = server.getWord(gamename);
-					
-					
-					
-					if (word.equals(""))
-						System.out.println("Internal Server Error");
-					else
-						help = server.getHelp(word);
-						
-					if (help == null)
-						System.out.println("Internal Server Error");
-					else {
-						
-						errors = 0;
-						errorLetters = "";
-						guess = getFreshGuess(word);
-						modulo = help.length;
-						count = 0;
+					while (true){
 						
 						
-						while (errors < 6){
+						
+						if (word.equals(""))
+							System.out.println("Internal Server Error");
+						else
+							help = server.getHelp(word);
 							
-							System.out.println("Word: " + guess.toUpperCase() + " , errors: " + errors + ", false: " + errorLetters.toUpperCase());
-							System.out.println("Your input: ");
+						if (help == null)
+							System.out.println("Internal Server Error");
+						else {
 							
-							input = in.nextLine();
+							errors = 0;
+							errorLetters = "";
+							guess = getFreshGuess(word);
+							modulo = help.length;
+							count = 0;
 							
-							if (input.toLowerCase().equals("help")){
-								System.out.println(help[count % modulo]);
-								count++;
-								errors++;
-							}
-							else if (input.toLowerCase().equals("quit")){
-								System.out.println("Goodbye!");
+							
+							while (errors < 6){
 								
-								break;
-							}
-							else if (input.length() == 1){
-								aux = guess;
+								System.out.println("Word: " + guess.toUpperCase() + " , errors: " + errors + ", false: " + errorLetters.toUpperCase());
+								System.out.println("Your input: ");
 								
-								found = false;
-								for (int j = 0; j < errorLetters.length(); j++){
-									if (errorLetters.charAt(j) == input.charAt(0)){
-										found = true;
-										break;
-									}
+								input = in.nextLine();
+								
+								if (input.toLowerCase().equals("help")){
+									System.out.println(help[count % modulo]);
+									count++;
+									errors++;
 								}
-								
-								if(!found){
-									guess = constructGuessWord(guess, word, input);
+								else if (input.toLowerCase().equals("quit")){
+									System.out.println("Goodbye!");
 									
-									if (guess.toLowerCase().equals(aux.toLowerCase())){
-										errorLetters += input;
-										errors++;
+									break;
+								}
+								else if (input.length() == 1){
+									aux = guess;
+									
+									found = false;
+									for (int j = 0; j < errorLetters.length(); j++){
+										if (errorLetters.charAt(j) == input.charAt(0)){
+											found = true;
+											break;
+										}
 									}
-									else if (!guess.contains("_")){
-										System.out.println(word.toUpperCase() + ", Congratulations!!");
-										break;
+									
+									if(!found){
+										guess = constructGuessWord(guess, word, input);
+										
+										if (guess.toLowerCase().equals(aux.toLowerCase())){
+											errorLetters += input;
+											errors++;
+										}
+										else if (!guess.contains("_")){
+											System.out.println(word.toUpperCase() + ", Congratulations!!");
+											break;
+										}
+									}
+									else{
+										System.out.println("Letter already chosen.");
 									}
 								}
 								else{
-									System.out.println("Letter already chosen.");
+									if (word.toLowerCase().equals(input.toLowerCase())){
+										server.wordTimestamp(gamename, username, input.toLowerCase());
+										System.out.println(word.toUpperCase() + ", is the right word!!");
+										
+										try {
+											server.waitGameend(gamename);
+											if (server.checkwin(gamename, username) == false){
+												System.out.println("sorry, you were too slow!");
+											}
+											else{
+												System.out.println("Congratulation");
+											}
+										} catch (InterruptedException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+										break;
+									}
+									else
+										errors++;
 								}
+							}
+							
+							if (errors == 6){
+								server.wordTimestamp(gamename, username, "");
+								System.out.println("Game Over..");
+							}
+							server.waitGameend(gamename);
+							if(server.checkTie(gamename) == false){
+								break;
 							}
 							else{
-								if (word.toLowerCase().equals(input.toLowerCase())){
-									server.wordTimestamp(gamename, username, input.toLowerCase());
-									System.out.println(word.toUpperCase() + ", is the right word!!");
-									
-									try {
-										if (server.checkwin(gamename, username) == false){
-											System.out.println("sorry, you were too slow!");
-										}
-										else{
-											System.out.println("Congratulation");
-										}
-									} catch (InterruptedException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
-									break;
-								}
-								else
-									errors++;
+								word = server.getWord(gamename);
 							}
 						}
-						
-						if (errors == 6)
-							System.out.println("Game Over..");
+					}
+				}
+				else if (input.toLowerCase().equals("j")){
+					
+					System.out.println("Please chose one of the following pending games:");
+					System.out.println(server.showSession());
+					
+					gamename = in.nextLine();
+					
+					server.joinerconnection(username, gamename);
+					
+					while (true){
+						try {
+								word = server.joinergetWord(gamename);
+							
+							
+							
+							if (word.equals(""))
+								System.out.println("Internal Server Error");
+							else
+								help = server.getHelp(word);
+								
+							if (help == null)
+								System.out.println("Internal Server Error");
+							else {
+								
+								errors = 0;
+								errorLetters = "";
+								guess = getFreshGuess(word);
+								modulo = help.length;
+								count = 0;
+								
+								
+								while (errors < 6){
+									
+									System.out.println("Word: " + guess.toUpperCase() + " , errors: " + errors + ", false: " + errorLetters.toUpperCase());
+									System.out.println("Your input: ");
+									
+									input = in.nextLine();
+									
+									if (input.toLowerCase().equals("help")){
+										System.out.println(help[count % modulo]);
+										count++;
+										errors++;
+									}
+									else if (input.toLowerCase().equals("quit")){
+										System.out.println("Goodbye!");
+										
+										break;
+									}
+									else if (input.length() == 1){
+										aux = guess;
+										
+										found = false;
+										for (int j = 0; j < errorLetters.length(); j++){
+											if (errorLetters.charAt(j) == input.charAt(0)){
+												found = true;
+												break;
+											}
+										}
+										
+										if(!found){
+											guess = constructGuessWord(guess, word, input);
+											
+											if (guess.toLowerCase().equals(aux.toLowerCase())){
+												errorLetters += input;
+												errors++;
+											}
+											else if (!guess.contains("_")){
+												System.out.println(word.toUpperCase() + ", Congratulations!!");
+												break;
+											}
+										}
+										else{
+											System.out.println("Letter already chosen.");
+										}
+									}
+									else{
+										if (word.toLowerCase().equals(input.toLowerCase())){
+											server.wordTimestamp(gamename, username, input.toLowerCase());
+											System.out.println(word.toUpperCase() + ", is the right word!!");
+											
+											try {
+												server.waitGameend(gamename);
+												if (server.checkwin(gamename, username) == false){
+													System.out.println("sorry, you were too slow!");
+												}
+												else{
+													System.out.println("Congratulation");
+												}
+											} catch (InterruptedException e) {
+												// TODO Auto-generated catch block
+												e.printStackTrace();
+											}
+											break;
+										}
+										else
+											errors++;
+									}
+								}
+								
+								if (errors == 6){
+									server.wordTimestamp(gamename, username, "");
+									System.out.println("Game Over..");
+								}
+								server.waitGameend(gamename);
+								if(server.checkTie(gamename) == false){
+									break;
+								}
+							}
+						}catch (InterruptedException e1) {
+							e1.printStackTrace();
+						}
 					}
 				}
 				else if (input.equals("exit")){
@@ -199,7 +327,7 @@ public class Main {
 			in.close();
 			System.out.println("Goodbye!");
 			
-		} catch (RemoteException | NotBoundException e) {
+		} catch (RemoteException | NotBoundException | InterruptedException e) {
 			
 			e.printStackTrace();
 		}

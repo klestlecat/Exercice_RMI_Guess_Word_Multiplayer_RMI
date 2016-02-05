@@ -17,6 +17,8 @@ public interface IServerWG extends Remote {
 
 	String getWord(String gamename) throws RemoteException;
 	
+	String joinergetWord(String gamename) throws RemoteException, InterruptedException;
+	
 	String[] getHelp(String word) throws RemoteException;
 	
 	boolean gameend(String gamename) throws RemoteException;
@@ -25,6 +27,8 @@ public interface IServerWG extends Remote {
 	
 	boolean checkwin (String gamename, String username) throws RemoteException, InterruptedException;
 
-	boolean checkTie(String gamename) throws RemoteException;
+	boolean checkTie(String gamename) throws RemoteException, InterruptedException;
+
+	void waitGameend(String gamename) throws RemoteException, InterruptedException;
 	
 }
