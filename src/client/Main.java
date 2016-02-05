@@ -84,6 +84,19 @@ public class Main {
 					gamename = in.nextLine();
 					server.sessioncreation(username, gamename);
 					
+					boolean joinerconnection = false;
+					System.out.println("waiting for a second player to join");
+					while (joinerconnection == false){
+						try {
+							Thread.sleep(30);
+							joinerconnection = server.checkplayerconnection(gamename);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					
+					
 					word = server.getWord(gamename);
 					
 					
@@ -102,6 +115,7 @@ public class Main {
 						guess = getFreshGuess(word);
 						modulo = help.length;
 						count = 0;
+						
 						
 						while (errors < 6){
 							
@@ -149,7 +163,20 @@ public class Main {
 							}
 							else{
 								if (word.toLowerCase().equals(input.toLowerCase())){
-									System.out.println(word.toUpperCase() + ", Congratulations!!");
+									server.wordTimestamp(gamename, username, input.toLowerCase());
+									System.out.println(word.toUpperCase() + ", is the right word!!");
+									
+									try {
+										if (server.checkwin(gamename, username) == false){
+											System.out.println("sorry, you were too slow!");
+										}
+										else{
+											System.out.println("Congratulation");
+										}
+									} catch (InterruptedException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
 									break;
 								}
 								else

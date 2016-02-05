@@ -13,7 +13,7 @@ public interface IServerWG extends Remote {
 	
 	void gameshutdown (String gamename) throws RemoteException;
 	
-	void checkplayerconnection (String gamename) throws RemoteException, InterruptedException;
+	boolean checkplayerconnection (String gamename) throws RemoteException, InterruptedException;
 
 	String getWord(String gamename) throws RemoteException;
 	

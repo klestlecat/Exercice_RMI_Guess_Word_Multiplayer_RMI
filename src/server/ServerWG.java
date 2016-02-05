@@ -71,12 +71,14 @@ public class ServerWG extends UnicastRemoteObject implements IServerWG {
 	}
 
 	@Override
-	public void checkplayerconnection(String gamename) throws RemoteException, InterruptedException {
+	public boolean checkplayerconnection(String gamename) throws RemoteException, InterruptedException {
 		
-		while (sessionarray.get(gamename).getJoiner() == null){
-			Thread.sleep(30);
+		if (sessionarray.get(gamename).getJoiner() == null){
+			return false;
 		}
-		
+		else{
+			return true;
+		}
 	}
 
 	@Override
@@ -91,7 +93,6 @@ public class ServerWG extends UnicastRemoteObject implements IServerWG {
 	public boolean gameend(String gamename) throws RemoteException {
 		
 		if (gamearray.get(gamename) != null){
-			setWinner(gamename);
 			addGameDB(gamename);
 			gamearray.remove(gamename);
 			return true;
@@ -122,6 +123,10 @@ public class ServerWG extends UnicastRemoteObject implements IServerWG {
 		
 		while (gamearray.get(gamename).getTscreator().equals("") && gamearray.get(gamename).getTsjoiner().equals("")){
 			Thread.sleep(30);
+		}
+		
+		if (gamearray.get(gamename).getWinner() == null){
+			setWinner(gamename);
 		}
 		
 		if (gamearray.get(gamename).getWinner().equals(username)){
