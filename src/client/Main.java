@@ -103,8 +103,6 @@ public class Main {
 					
 					while (true){
 						
-						
-						
 						if (word.equals(""))
 							System.out.println("Internal Server Error");
 						else
