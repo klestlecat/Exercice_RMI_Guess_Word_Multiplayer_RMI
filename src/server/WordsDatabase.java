@@ -242,10 +242,13 @@ public class WordsDatabase {
 			stmt = this.c.createStatement();
 			
 			
-			String sqlSession = "INSERT INTO SESSION (SESSION, IDCREATOR, IDJOINER)" +
-					"VALUES ('" + gamename + ", '" + cid + ", '" + jid + "');";
+			String sqlSession = "INSERT INTO SESSIONS (IDCREATOR, IDJOINER, SESSION)" +
+					"VALUES (" + cid + ", '" + jid + ", '" + gamename + "');";
 			
-			stmt.executeUpdate(sqlSession);
+/*			"INSERT INTO HELP (WORD, LINE) " +
+				"VALUES (" + id + ", '" + help[i] + "');";
+			
+*/			stmt.executeUpdate(sqlSession);
 			
 			stmt.close();
 			this.disconnect();
