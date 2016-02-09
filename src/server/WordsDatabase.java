@@ -200,7 +200,7 @@ public class WordsDatabase {
 	public int getwordID (String word){
 		
 		Statement stmt = null;
-		String getWordID = "SELECT ID FROM WORLDS WHERE WORD='" + word + "';";
+		String getWordID = "SELECT ID FROM WORDS WHERE WORD='" + word + "';";
 		int wordID = -1;
 		
 		try{
@@ -320,7 +320,7 @@ public class WordsDatabase {
 			
 			
 			String sqlSession = "INSERT INTO GAME (IDSESSION, IDWORD, IDWINNER, IDLOSER, STATUS)" +
-					" VALUES ('" + gid + ", '" + wordid + ", '" + wid +", '" + lid +", '" + tie + "');";
+					" VALUES ('" + gid + "', '" + wordid + "', '" + wid +"', '" + lid +"', '" + tie + "');";
 			System.out.println(sqlSession);
 			
 			stmt.executeUpdate(sqlSession);

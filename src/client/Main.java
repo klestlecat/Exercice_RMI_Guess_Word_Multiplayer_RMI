@@ -172,9 +172,11 @@ public class Main {
 											server.waitGameend(gamename);
 											if (server.checkwin(gamename, username) == false){
 												System.out.println("sorry, you were too slow!");
+												server.gameend(gamename);
 											}
 											else{
 												System.out.println("Congratulation");
+												server.gameend(gamename);
 											}
 										} catch (InterruptedException e) {
 											// TODO Auto-generated catch block
@@ -193,9 +195,11 @@ public class Main {
 							}
 							server.waitGameend(gamename);
 							if(server.checkTie(gamename) == false){
+								server.gameend(gamename);
 								break;
 							}
 							else{
+								server.gameend(gamename);
 								word = server.getWord(gamename);
 							}
 						}
@@ -285,9 +289,11 @@ public class Main {
 												server.waitGameend(gamename);
 												if (server.checkwin(gamename, username) == false){
 													System.out.println("sorry, you were too slow!");
+													server.gameend(gamename);
 												}
 												else{
 													System.out.println("Congratulation");
+													server.gameend(gamename);
 												}
 											} catch (InterruptedException e) {
 												// TODO Auto-generated catch block
@@ -306,7 +312,11 @@ public class Main {
 								}
 								server.waitGameend(gamename);
 								if(server.checkTie(gamename) == false){
+									server.gameend(gamename);
 									break;
+								}
+								else{
+									server.gameend(gamename);
 								}
 							}
 						}catch (InterruptedException e1) {

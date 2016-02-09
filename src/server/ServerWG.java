@@ -97,7 +97,6 @@ public class ServerWG extends UnicastRemoteObject implements IServerWG {
 			addGameDB(gamename);
 			gamearray.remove(gamename);
 			return true;
-			
 		}
 		return false;
 	}
@@ -158,6 +157,7 @@ public class ServerWG extends UnicastRemoteObject implements IServerWG {
 			gamearray.get(gamename).setLoser(sessionarray.get(gamename).getCreator());
 			gamearray.get(gamename).setTie("not tie");
 		}
+		System.out.println("getting value of tie: " + gamearray.get(gamename).getTie());
 	}
 	
 	@Override
@@ -165,6 +165,10 @@ public class ServerWG extends UnicastRemoteObject implements IServerWG {
 		
 		while (gamearray.get(gamename).getTscreator().equals("") || gamearray.get(gamename).getTsjoiner().equals("")){
 			Thread.sleep(1000);
+		}
+		
+		if (gamearray.get(gamename).getWinner() == null){
+			setWinner(gamename);
 		}
 		
 		if (gamearray.get(gamename).getTscreator().equals("0000") && gamearray.get(gamename).getTsjoiner().equals("0000")){
@@ -175,6 +179,8 @@ public class ServerWG extends UnicastRemoteObject implements IServerWG {
 	}
 	
 	public void addGameDB(String gamename){
+		
+		System.out.println("\n " + gamearray.get(gamename).getTie());
 		db.addGame(gamearray.get(gamename).getWinner(), gamearray.get(gamename).getLoser(), 
 				gamearray.get(gamename).getWord(), gamename, gamearray.get(gamename).getTie());
 	}
