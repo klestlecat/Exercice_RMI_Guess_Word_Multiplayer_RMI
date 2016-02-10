@@ -306,7 +306,7 @@ public class Main {
 											errors++;
 									}
 								}
-								
+			
 								if (errors == 6){
 									server.wordTimestamp(gamename, username, "");
 									System.out.println("Game Over..");
