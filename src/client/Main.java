@@ -234,7 +234,7 @@ public class Main {
 								guess = getFreshGuess(word);
 								modulo = help.length;
 								count = 0;
-								
+							
 								
 								while (errors < 6){
 									
