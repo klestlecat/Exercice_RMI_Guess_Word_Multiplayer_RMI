@@ -77,4 +77,33 @@ le serveur fait les choses suivantes:
 		
 		sinon return false
 			
-	
+			
+plusieurs problemes possibles:
+
+java.sql.SQLException: [SQLITE_ERROR] SQL error or missing database (Connection is closed)
+cependant l'utilisation de la database fonctionne comme il faut. cette erreur apparait seulement de temps en temps
+
+joiner trouve la bonne reponse avant createur:
+Comportement du programme: createur entre dans une nouvelle boucle, joiner attend
+Comportement attendu: fin du programme pour tous les utilisateurs
+
+creator trouve la bonne reponse avant joiner
+Comportement du programme: les deux entrent dans un nouveau jeu
+Comportement attendu: fin du programme pour tous les utilisateurs
+
+creator trouve la bonne reponse et joiner fait 6 erreurs
+Comportement du programme: Createur nouveau jeu, joiner arrivee au menu principal
+Comportement attendu: fin du programme pour tous les utilisateurs
+
+Joiner trouve la bonne reponse, creator fait 6 erreurs
+comportement du programme: joiner perd la partie, creator perd la partie et revient au menu principal
+Comportement attendu: fin programme pour les 2 joueurs, joiner gagne
+
+creator fait 6 erreurs le premier, joiner fait 6 erreurs le 2e
+Comportemenr du programme: normal (une nouvelle boucle recomence pour tous les 2)
+
+joiner fait 6 erreurs le premier, creator fait 6 erreurs le 2e
+Comportement do programme: normal (une nouvelle boucle recomence pour tous les 2)
+
+
+

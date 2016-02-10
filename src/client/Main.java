@@ -97,7 +97,6 @@ public class Main {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						
 					}
 					
 					
@@ -203,7 +202,8 @@ public class Main {
 							}
 							else{
 								server.gameend(gamename);
-								word = server.getWord(gamename);
+//								word = server.getWord(gamename);
+								break;
 							}
 						}
 					}
@@ -294,7 +294,7 @@ public class Main {
 													System.out.println("sorry, you were too slow!");
 												}
 												else{
-													System.out.println("Congratulation");
+													System.out.println("Congratulations, you won...");
 												}
 											} catch (InterruptedException e) {
 												// TODO Auto-generated catch block
@@ -315,6 +315,9 @@ public class Main {
 									if(server.checkTie(gamename) == false){
 										break;
 									}
+								}
+								else{
+									break;
 								}
 							}
 						}catch (InterruptedException e1) {
