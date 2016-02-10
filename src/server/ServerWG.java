@@ -207,7 +207,7 @@ public class ServerWG extends UnicastRemoteObject implements IServerWG {
 	public void waitGameend(String gamename) throws InterruptedException{
 		
 		while (gamearray.get(gamename).getTscreator().equals("") || gamearray.get(gamename).getTsjoiner().equals("")){
-			Thread.sleep(1000);
+			Thread.sleep(30);
 		}
 	}
 }
