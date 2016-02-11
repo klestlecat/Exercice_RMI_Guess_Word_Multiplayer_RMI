@@ -154,7 +154,21 @@ public class Main {
 											errors++;
 										}
 										else if (!guess.contains("_")){
-											System.out.println(word.toUpperCase() + ", Congratulations!!");
+											server.wordTimestamp(gamename, username, input.toLowerCase());
+											System.out.println(word.toUpperCase() + ", is the right word!!");
+											
+											try {
+												server.waitGameend(gamename);
+												if (server.checkwin(gamename, username) == false){
+													System.out.println("sorry, you were too slow!");
+												}
+												else{
+													System.out.println("Congratulation");
+												}
+											} catch (InterruptedException e) {
+												// TODO Auto-generated catch block
+												e.printStackTrace();
+											}
 											break;
 										}
 									}
@@ -276,7 +290,21 @@ public class Main {
 												errors++;
 											}
 											else if (!guess.contains("_")){
-												System.out.println(word.toUpperCase() + ", Congratulations!!");
+												server.wordTimestamp(gamename, username, input.toLowerCase());
+												System.out.println(word.toUpperCase() + ", is the right word!!");
+												
+												try {
+													server.waitGameend(gamename);
+													if (server.checkwin(gamename, username) == false){
+														System.out.println("sorry, you were too slow!");
+													}
+													else{
+														System.out.println("Congratulations, you won...");
+													}
+												} catch (InterruptedException e) {
+													// TODO Auto-generated catch block
+													e.printStackTrace();
+												}
 												break;
 											}
 										}
