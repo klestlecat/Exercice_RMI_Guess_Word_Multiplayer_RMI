@@ -108,7 +108,7 @@ public class ServerWG extends UnicastRemoteObject implements IServerWG {
 		String timestamp = TimeStamp();
 		
 		if (word.equals("")){
-			timestamp = "0000";
+			timestamp = "zzzz";
 		}
 				
 		if (username.equals(sessionarray.get(gamename).getCreator())){
@@ -142,7 +142,7 @@ public class ServerWG extends UnicastRemoteObject implements IServerWG {
 		String creatorts = gamearray.get(gamename).getTscreator();
 		String joinerts = gamearray.get(gamename).getTsjoiner();
 		
-		if (creatorts.equals("0000") && joinerts.equals("0000")){
+		if (creatorts.equals("zzzz") && joinerts.equals("zzzz")){
 			gamearray.get(gamename).setWinner(sessionarray.get(gamename).getCreator());
 			gamearray.get(gamename).setLoser(sessionarray.get(gamename).getJoiner());
 			gamearray.get(gamename).setTie("tie");
@@ -172,7 +172,11 @@ public class ServerWG extends UnicastRemoteObject implements IServerWG {
 			setWinner(gamename);
 		}
 		
-		if (gamearray.get(gamename).getTscreator().equals("0000") && gamearray.get(gamename).getTsjoiner().equals("0000")){
+		if (gamearray.get(gamename).getTscreator().equals("zzzz") && gamearray.get(gamename).getTsjoiner().equals("zzzz")){
+			return true;
+		}
+		
+		else if (gamearray.get(gamename).getWinner() == null){
 			return true;
 		}
 		

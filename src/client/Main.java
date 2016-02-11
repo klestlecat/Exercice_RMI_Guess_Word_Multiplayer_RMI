@@ -195,6 +195,7 @@ public class Main {
 									server.gameend(gamename);
 									break;
 								}
+								
 								else{
 									server.gameend(gamename);
 									word = server.getWord(gamename);

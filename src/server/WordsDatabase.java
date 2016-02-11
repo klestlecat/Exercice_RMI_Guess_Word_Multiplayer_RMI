@@ -97,6 +97,7 @@ public class WordsDatabase {
 	}
 	
 	public boolean addPlayer (String username){
+		System.out.println("\n Using addPlayer method in WordsDatabase");
 		Statement stmt = null;
 		String sqlPlayer = "INSERT INTO PLAYERS (PLAYER)" +
 							"VALUES ('" + username + "');";
@@ -127,7 +128,7 @@ public class WordsDatabase {
 	// il est possible de faire une seule methode getID qui recuperera dans la table l'ID?
 	
 	public int getPlayerID(String username){
-		
+		System.out.println("\n Using getPlayerID method in WordsDatabase");
 		Statement stmt = null;
 		String getPlayerID = "SELECT ID FROM PLAYERS WHERE PLAYER='" + username + "';";
 		int playerid = -1;
@@ -162,7 +163,7 @@ public class WordsDatabase {
 	}
 	
 	public int getSessionID (String session){
-		
+		System.out.println("\n Using getSessionID method in WordsDatabase");
 		Statement stmt = null;
 		String getSessionID = "SELECT ID FROM SESSIONS WHERE SESSION='" + session + "';";
 		int sessionid = -1;
@@ -198,7 +199,7 @@ public class WordsDatabase {
 	
 	
 	public int getwordID (String word){
-		
+		System.out.println("\n Using getwordID method in WordsDatabase");
 		Statement stmt = null;
 		String getWordID = "SELECT ID FROM WORDS WHERE WORD='" + word + "';";
 		int wordID = -1;
@@ -234,7 +235,7 @@ public class WordsDatabase {
 	}
 	
 	public boolean addSession (String creator, String gamename){
-		
+		System.out.println("\n Using addSession method in WordsDatabase");
 		Statement stmt = null;
 		int cid = getPlayerID(creator);
 		int jid = -1;
@@ -271,6 +272,7 @@ public class WordsDatabase {
 	}
 	
 	public boolean setJoinerSession (String gamename, String joiner){
+		System.out.println("\n Using setJoinerSession method in WordsDatabase");
 		Statement stmt = null;
 		
 		int joinerid = getPlayerID(joiner);
@@ -305,6 +307,7 @@ public class WordsDatabase {
 	}
 	
 	public boolean addGame (String winner, String loser, String word, String gamename, String tie){
+		System.out.println("\n Using addGame method in WordsDatabase");
 		Statement stmt = null;
 		int wid, lid, wordid, gid; 
 		
@@ -344,7 +347,7 @@ public class WordsDatabase {
 	
 	
 	public boolean addRow(String word, String[] help){
-	
+		System.out.println("\n Using addRow method in WordsDatabase");
 	   Statement stmt = null;
 	   String sqlWord = "INSERT INTO WORDS (WORD) " +
 	            		"VALUES ('" + word + "');";
@@ -398,7 +401,7 @@ public class WordsDatabase {
 	}
 	
 	public String getWord(){
-		
+		System.out.println("\n Using getword method in WordsDatabase");
 	   Statement stmt = null;
 	   String query = "SELECT * FROM WORDS ORDER BY RANDOM() LIMIT 1";
 	   
